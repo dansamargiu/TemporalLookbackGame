@@ -17,9 +17,8 @@
 #ifndef _app_H_
 #define _app_H_
 
-#include "crowd.h"
+#include "Horde3D.h"
 #include <string>
-
 
 class Application
 {
@@ -48,15 +47,12 @@ private:
 	float        _velocity;  // Velocity for movement
 	float        _curFPS;
 
-	int          _statMode;
-	int          _freezeMode;
-	bool         _debugViewMode, _wireframeMode;
-	
-	CrowdSim     *_crowdSim;
+	int _freezeMode;
+	bool _debugViewMode, _wireframeMode;
 	
 	// Engine objects
-	H3DRes       _fontMatRes, _panelMatRes;
-	H3DRes       _logoMatRes, _forwardPipeRes, _deferredPipeRes;
+	H3DRes _forwardPipeRes;
+	H3DRes _deferredPipeRes;
 	H3DNode      _cam;
 
 	std::string  _contentDir;

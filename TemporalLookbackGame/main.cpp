@@ -33,8 +33,7 @@ bool setupWindow( int, int, bool );
 static bool running;
 static double t0;
 static int mx0, my0;
-static Application *app;
-
+static Application *g_tApp;
 
 std::string extractAppPath( char *fullPath )
 {
@@ -76,7 +75,7 @@ void keyPressListener( int key, int action )
 			running = false;
 			break;
 		case GLFW_KEY_F1:
-			app->release();
+			g_tApp->release();
 			glfwCloseWindow();
 			
 			// Toggle fullscreen mode
@@ -113,8 +112,8 @@ void keyPressListener( int key, int action )
 				exit( -1 );
 			}
 			
-			app->init();
-			app->resize( width, height );
+			g_tApp->init();
+			g_tApp->resize(width, height);
 			t0 = glfwGetTime();
 			break;
 		}
@@ -130,7 +129,7 @@ void mouseMoveListener( int x, int y )
 		return;
 	}
 
-	app->mouseMoveEvent( (float)(x - mx0), (float)(my0 - y) );
+	g_tApp->mouseMoveEvent((float)(x - mx0), (float)(my0 - y));
 	mx0 = x; my0 = y;
 }
 
@@ -162,34 +161,29 @@ int main( int argc, char** argv )
 	glfwInit();
 	glfwEnable( GLFW_STICKY_KEYS );
 	if( !setupWindow( appWidth, appHeight, fullScreen ) ) return -1;
-
-	// Check if benchmark mode is requested
-	bool benchmark = false;
-	if( argc > 1 && strcmp( argv[1], "-bm" ) == 0 )
-	{	
-		benchmark = true;
-		glfwDisable( GLFW_AUTO_POLL_EVENTS );
-	}
 	
 	// Initialize application and engine
-	app = new Application( extractAppPath( argv[0] ) );
-	if( !fullScreen ) glfwSetWindowTitle( app->getTitle() );
+	Application app(extractAppPath(argv[0]));
+	// Set Global pointer
+	g_tApp = &app;
+
+	if( !fullScreen ) glfwSetWindowTitle( app.getTitle() );
 	
-	if ( !app->init() )
+	if ( !app.init() )
 	{
 		// Fake message box
 		glfwCloseWindow();
 		glfwOpenWindow( 800, 16, 8, 8, 8, 8, 24, 8, GLFW_WINDOW );
-		glfwSetWindowTitle( "Unable to initalize engine - Make sure you have an OpenGL 2.0 compatible graphics card" );
+		glfwSetWindowTitle( "Unable to initialize engine - Make sure you have an OpenGL 2.0 compatible graphics card" );
 		double startTime = glfwGetTime();
 		while( glfwGetTime() - startTime < 5.0 ) {}  // Sleep
 		
-		std::cout << "Unable to initalize engine" << std::endl;
+		std::cout << "Unable to initialize engine" << std::endl;
 		std::cout << "Make sure you have an OpenGL 2.0 compatible graphics card";
 		glfwTerminate();
 		return -1;
 	}
-	app->resize( appWidth, appHeight );
+	app.resize( appWidth, appHeight );
 
 	glfwDisable( GLFW_MOUSE_CURSOR );
 
@@ -203,7 +197,7 @@ int main( int argc, char** argv )
 	{	
 		// Calc FPS
 		++frames;
-		if( !benchmark && frames >= 3 )
+		if( frames >= 3 )
 		{
 			double t = glfwGetTime();
 			fps = frames / (float)(t - t0);
@@ -213,35 +207,22 @@ int main( int argc, char** argv )
 		}
 
 		// Update key states
-		for( int i = 0; i < 320; ++i )
-			app->setKeyState( i, glfwGetKey( i ) == GLFW_PRESS );
-		app->keyStateHandler();
+		for (int i = 0; i < 320; ++i)
+		{
+			app.setKeyState(i, glfwGetKey(i) == GLFW_PRESS);
+		}
+			
+		app.keyStateHandler();
 
 		// Render
-		app->mainLoop( benchmark ? 60 : fps );
+		app.mainLoop( fps );
 		glfwSwapBuffers();
-
-		if( benchmark && frames == benchmarkLength ) break;
 	}
 
 	glfwEnable( GLFW_MOUSE_CURSOR );
 
-	// Show benchmark results
-	if( benchmark )
-	{	
-		double avgFPS = benchmarkLength / (glfwGetTime() - t0);
-		char title[256];
-		sprintf( title, "Average FPS: %.2f", avgFPS );
-		glfwCloseWindow();
-		glfwOpenWindow( 800, 16, 8, 8, 8, 8, 24, 8, GLFW_WINDOW );
-		glfwSetWindowTitle( title );
-		double startTime = glfwGetTime();
-		while( glfwGetTime() - startTime < 5.0 ) {}  // Sleep
-	}
-	
 	// Quit
-	app->release();
-	delete app;
+	app.release();	
 	glfwTerminate();
 
 	return 0;
