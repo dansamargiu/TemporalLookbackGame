@@ -20,82 +20,60 @@
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
+#include <functional>
 #include "glfw.h"
 #include "app.h"
+#include "AppState.h"
+
+bool setupWindow(int, int, bool);
 
 // Configuration
-const int appWidth = 1024;
-const int appHeight = 576;
-static bool fullScreen = false;
-static int benchmarkLength = 600;
+const int kAppWidth = 1024;
+const int kAppHeight = 576;
 
-bool setupWindow( int, int, bool );
-static bool running;
-static double t0;
-static int mx0, my0;
-static Application *g_tApp;
+static AppState gAppState;
 
-std::string extractAppPath( char *fullPath )
+const auto windowCloseCallback = []()
 {
-#ifdef __APPLE__
-	std::string s( fullPath );
-	for( int i = 0; i < 4; ++i )
-		s = s.substr( 0, s.rfind( "/" ) );
-	return s + "/../";
-#else
-	const std::string s( fullPath );
-	if( s.find( "/" ) != std::string::npos )
-		return s.substr( 0, s.rfind( "/" ) ) + "/";
-	else if( s.find( "\\" ) != std::string::npos )
-		return s.substr( 0, s.rfind( "\\" ) ) + "\\";
-	else
-		return "";
-#endif
-}
-
-
-int windowCloseListener()
-{
-	running = false;
+	gAppState.running = false;
 	return 0;
-}
+};
 
-
-void keyPressListener( int key, int action )
+const auto keyCallback = [](int key, int action)
 {
-	if( !running ) return;
+	if (!gAppState.running) return;
 
-	if( action == GLFW_PRESS )
+	if (action == GLFW_PRESS)
 	{
-		int width = appWidth, height = appHeight;
-		
+		int width = kAppWidth, height = kAppHeight;
+
 		switch (key)
 		{
 		case GLFW_KEY_ESC:
-			running = false;
+			gAppState.running = false;
 			break;
 		case GLFW_KEY_F1:
-			g_tApp->release();
+			gAppState.app->release();
 			glfwCloseWindow();
-			
-			// Toggle fullscreen mode
-			fullScreen = !fullScreen;
 
-			if( fullScreen )
+			// Toggle fullscreen mode
+			gAppState.fullScreen = !gAppState.fullScreen;
+
+			if (gAppState.fullScreen)
 			{
 				GLFWvidmode mode;
-				glfwGetDesktopMode( &mode );
-				
+				glfwGetDesktopMode(&mode);
+
 				float aspect = mode.Width / (float)mode.Height;
-				if( (int)(aspect * 100) == 133 || (int)(aspect * 100) == 125 )  // Standard
+				if ((int)(aspect * 100) == 133 || (int)(aspect * 100) == 125)  // Standard
 				{
 					width = 1280; height = 1024;
 				}
-				else if( (int)(aspect * 100) == 177 )                           // Widescreen 16:9
+				else if ((int)(aspect * 100) == 177)                           // Widescreen 16:9
 				{
 					width = 1280; height = 720;
 				}
-				else if( (int)(aspect * 100) == 160 )                           // Widescreen 16:10
+				else if ((int)(aspect * 100) == 160)                           // Widescreen 16:10
 				{
 					width = 1280; height = 800;
 				}
@@ -105,34 +83,45 @@ void keyPressListener( int key, int action )
 					width = mode.Width; height = mode.Height;
 				}
 			}
-			
-			if( !setupWindow( width, height, fullScreen ) )
+
+			if (!setupWindow(width, height, gAppState.fullScreen))
 			{
 				glfwTerminate();
-				exit( -1 );
+				exit(-1);
 			}
-			
-			g_tApp->init();
-			g_tApp->resize(width, height);
-			t0 = glfwGetTime();
+
+			gAppState.app->init();
+			gAppState.app->resize(width, height);
+			gAppState.t0 = glfwGetTime();
 			break;
 		}
 	}
-}
+};
 
-
-void mouseMoveListener( int x, int y )
+const auto mouseMoveCallback = [](int x, int y)
 {
-	if( !running )
+	if (!gAppState.running)
 	{
-		mx0 = x; my0 = y;
+		gAppState.mx0 = x;
+		gAppState.my0 = y;
 		return;
 	}
 
-	g_tApp->mouseMoveEvent((float)(x - mx0), (float)(my0 - y));
-	mx0 = x; my0 = y;
-}
+	gAppState.app->mouseMoveEvent((float)(x - gAppState.mx0), (float)(gAppState.my0 - y));
+	gAppState.mx0 = x;
+	gAppState.my0 = y;
+};
 
+std::string extractAppPath( char *fullPath )
+{
+	const std::string s( fullPath );
+	if( s.find( "/" ) != std::string::npos )
+		return s.substr( 0, s.rfind( "/" ) ) + "/";
+	else if( s.find( "\\" ) != std::string::npos )
+		return s.substr( 0, s.rfind( "\\" ) ) + "\\";
+	else
+		return "";
+}
 
 bool setupWindow( int width, int height, bool fullscreen )
 {
@@ -147,27 +136,25 @@ bool setupWindow( int width, int height, bool fullscreen )
 	glfwSwapInterval( 0 );
 
 	// Set listeners
-	glfwSetWindowCloseCallback( windowCloseListener );
-	glfwSetKeyCallback( keyPressListener );
-	glfwSetMousePosCallback( mouseMoveListener );
+	glfwSetWindowCloseCallback(windowCloseCallback);	
+	glfwSetKeyCallback(keyCallback);
+	glfwSetMousePosCallback(mouseMoveCallback);
 	
 	return true;
 }
-
 
 int main( int argc, char** argv )
 {
 	// Initialize GLFW
 	glfwInit();
 	glfwEnable( GLFW_STICKY_KEYS );
-	if( !setupWindow( appWidth, appHeight, fullScreen ) ) return -1;
+	if (!setupWindow(kAppWidth, kAppHeight, gAppState.fullScreen)) return -1;
 	
 	// Initialize application and engine
 	Application app(extractAppPath(argv[0]));
-	// Set Global pointer
-	g_tApp = &app;
+	gAppState.app = &app;
 
-	if( !fullScreen ) glfwSetWindowTitle( app.getTitle() );
+	if (!gAppState.fullScreen) glfwSetWindowTitle(app.getTitle());
 	
 	if ( !app.init() )
 	{
@@ -183,27 +170,27 @@ int main( int argc, char** argv )
 		glfwTerminate();
 		return -1;
 	}
-	app.resize( appWidth, appHeight );
+	app.resize( kAppWidth, kAppHeight );
 
 	glfwDisable( GLFW_MOUSE_CURSOR );
 
 	int frames = 0;
 	float fps = 30.0f;
-	t0 = glfwGetTime();
-	running = true;
+	gAppState.t0 = glfwGetTime();
+	gAppState.running = true;
 
 	// Game loop
-	while( running )
+	while (gAppState.running)
 	{	
 		// Calc FPS
 		++frames;
 		if( frames >= 3 )
 		{
 			double t = glfwGetTime();
-			fps = frames / (float)(t - t0);
+			fps = frames / (float)(t - gAppState.t0);
 			if( fps < 5 ) fps = 30;  // Handle breakpoints
 			frames = 0;
-			t0 = t;
+			gAppState.t0 = t;
 		}
 
 		// Update key states
