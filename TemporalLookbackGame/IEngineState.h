@@ -4,7 +4,6 @@ class IEngineState
 {
 public:
 	virtual ~IEngineState() {};
-	virtual void RegisterCallbacks() = 0;
 	virtual void Draw() = 0;
 	virtual bool ShouldRun() const = 0;
 

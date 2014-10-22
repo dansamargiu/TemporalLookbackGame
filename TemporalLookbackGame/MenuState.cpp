@@ -4,7 +4,7 @@
 using namespace NEngine;
 
 MenuState::MenuState(const NUtility::FancyFactory& factory)
-: m_factory(factory), m_graphics(nullptr), m_shouldRun(true)
+: m_factory(factory), m_shouldRun(true)
 {
 
 }
@@ -20,21 +20,6 @@ bool MenuState::ShouldRun() const
 
 void MenuState::Draw()
 {	
-}
-
-void MenuState::RegisterCallbacks()
-{
-	m_graphics = m_factory.Resolve<IGraphics>();
-	if (!m_graphics)
-	{
-		return;
-	}
-
-	CallbackContainer::destroy_instance();
-	CallbackContainer::get_instance(this);
-	m_graphics->SetWindowCloseCallback();
-	m_graphics->SetKeyCallback();
-	m_graphics->SetMousePosCallback();
 }
 
 int NEngine::MenuState::WindowCloseCallback()

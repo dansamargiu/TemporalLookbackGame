@@ -49,6 +49,7 @@ bool TemporalEngine::Initialize(const EngineParams&)
 
 bool TemporalEngine::SetState(const std::string& strState)
 {
+	// Clear the previous engine state object ptr and resolve the new one.
 	m_currentEngineState.reset();
 	m_currentEngineState = m_Factory.Resolve<IEngineState>(strState);
 	if (!m_currentEngineState)
@@ -56,7 +57,14 @@ bool TemporalEngine::SetState(const std::string& strState)
 		return false;
 	}
 
-	m_currentEngineState->RegisterCallbacks();
+	// Point the CallbackContainer at the right engine state obj.
+	CallbackContainer::destroy_instance();
+	CallbackContainer::get_instance(m_currentEngineState);
+
+	// Register the graphics callbacks.
+	m_graphics->SetWindowCloseCallback();
+	m_graphics->SetKeyCallback();
+	m_graphics->SetMousePosCallback();
 	return true;
 }
 

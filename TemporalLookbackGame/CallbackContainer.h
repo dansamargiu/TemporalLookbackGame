@@ -11,27 +11,32 @@ namespace NEngine
 		{
 		}
 
-		CallbackContainer(IEngineState* engineState) : m_engineState(engineState)
+		CallbackContainer(std::shared_ptr<IEngineState> engineState) : m_engineState(engineState)
 		{
 		}
 
 	public:
 		int WindowClose()
 		{
-			return m_engineState->WindowCloseCallback();
+			if (m_engineState)
+			{
+				return m_engineState->WindowCloseCallback();
+			}
+
+			return 0;
 		}
 
 		void SetKey(int key, int action)
 		{
-			m_engineState->SetKeyCallback(key, action);
+			if (m_engineState) m_engineState->SetKeyCallback(key, action);
 		}
 
 		void SetMousePos(int x, int y)
 		{
-			m_engineState->SetMousePosCallback(x, y);
+			if (m_engineState) m_engineState->SetMousePosCallback(x, y);
 		}
 
 	private:
-		IEngineState* m_engineState;
+		std::shared_ptr<IEngineState> m_engineState;
 	};
 }
