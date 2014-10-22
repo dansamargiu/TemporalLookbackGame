@@ -30,6 +30,7 @@ namespace NEngine
 		virtual void SetWindowCloseCallback() = 0;
 		virtual void SetKeyCallback() = 0;
 		virtual void SetMousePosCallback() = 0;
+		virtual double GetTime() = 0;
 	};
 
 	class GLFWGraphics : public IGraphics
@@ -77,6 +78,11 @@ namespace NEngine
 		virtual void SetMousePosCallback() override
 		{
 			glfwSetMousePosCallback([](int x, int y) { CallbackContainer::get_instance()->SetMousePos(x, y);  });
+		}
+
+		virtual double GetTime() override
+		{
+			return glfwGetTime();
 		}
 	};
 }

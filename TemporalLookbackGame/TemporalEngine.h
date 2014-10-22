@@ -5,11 +5,6 @@
 
 namespace NEngine
 {
-	struct EngineParams
-	{
-		std::string appPath;
-	};
-
 	class TemporalEngine
 	{
 	public:
@@ -20,6 +15,7 @@ namespace NEngine
 		bool SetState(const std::string& stateName);
 		void Launch();
 	private:
+		EngineParams m_params;
 		const NUtility::FancyFactory& m_Factory;
 		std::shared_ptr<IGraphics> m_graphics;
 		std::shared_ptr<IEngineState> m_currentEngineState;

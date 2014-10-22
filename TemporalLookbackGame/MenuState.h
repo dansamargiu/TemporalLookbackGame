@@ -1,6 +1,9 @@
 #pragma once
-#include "IEngineState.h"
 #include "IGraphics.h"
+#include "TemporalEngine.h"
+
+#include <Horde3D.h>
+#include <Horde3DUtils.h>
 
 namespace NEngine 
 {
@@ -10,7 +13,8 @@ namespace NEngine
 		MenuState(const NUtility::FancyFactory& factory);
 		virtual ~MenuState();
 
-		virtual void Draw() override;
+		virtual bool Initialize(const EngineParams& params) override;
+		virtual void Draw(float fps) override;
 		virtual bool ShouldRun() const override;
 
 		virtual int WindowCloseCallback() override;
@@ -19,6 +23,9 @@ namespace NEngine
 	private:
 		const NUtility::FancyFactory& m_factory;
 		bool m_shouldRun;
+		H3DNode m_model;
+		H3DNode m_cam;
+		float m_time;
 
 		DISALLOW_COPY_AND_ASSIGN(MenuState);
 	};

@@ -21,8 +21,11 @@ TemporalEngine::~TemporalEngine()
 	CallbackContainer::destroy_instance();
 }
 
-bool TemporalEngine::Initialize(const EngineParams&)
+bool TemporalEngine::Initialize(const EngineParams& params)
 {
+	// Copy the params
+	m_params = params;
+
 	m_graphics = m_Factory.Resolve<IGraphics>();
 	if (!m_graphics)
 	{
@@ -57,6 +60,12 @@ bool TemporalEngine::SetState(const std::string& strState)
 		return false;
 	}
 
+	// Initialize State
+	if (!m_currentEngineState->Initialize(m_params))
+	{
+		return false;
+	}
+
 	// Point the CallbackContainer at the right engine state obj.
 	CallbackContainer::destroy_instance();
 	CallbackContainer::get_instance(m_currentEngineState);
@@ -70,9 +79,23 @@ bool TemporalEngine::SetState(const std::string& strState)
 
 void TemporalEngine::Launch()
 {
+	int frames = 0;
+	float fps = 30.0f;
+	static double t0 = m_graphics->GetTime();
 	while (m_currentEngineState->ShouldRun())
 	{
-		m_currentEngineState->Draw();
+		// Calculate FPS
+		++frames;
+		if (frames >= 3)
+		{
+			double t = m_graphics->GetTime();
+			fps = frames / (float)(t - t0);
+			if (fps < 5) fps = 30;  // Handle breakpoints
+			frames = 0;
+			t0 = t;
+		}
+
+		m_currentEngineState->Draw(fps);
 		m_graphics->PollEvents();
 	}
 }

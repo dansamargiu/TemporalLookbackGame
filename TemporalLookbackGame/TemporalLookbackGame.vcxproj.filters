@@ -54,6 +54,9 @@
     <ClInclude Include="Singleton.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="EngineParams.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

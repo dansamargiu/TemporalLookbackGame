@@ -255,6 +255,7 @@
     <ClInclude Include="CallbackContainer.h" />
     <ClInclude Include="EngineDefines.h" />
     <ClInclude Include="EngineGlobals.h" />
+    <ClInclude Include="EngineParams.h" />
     <ClInclude Include="EngineStringLiterals.h" />
     <ClInclude Include="IEngineState.h" />
     <ClInclude Include="IGraphics.h" />
