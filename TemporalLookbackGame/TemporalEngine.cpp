@@ -1,19 +1,36 @@
 #include "stdafx.h"
 #include "TemporalEngine.h"
 #include "IGraphics.h"
+#include "IEngineState.h"
+#include "EngineGlobals.h"
 
 using namespace NEngine;
 
+TemporalEngine::TemporalEngine(const NUtility::FancyFactory& factory)
+: m_Factory(factory), m_graphics(nullptr), m_currentEngineState(nullptr)
+{
+}
+
+TemporalEngine::~TemporalEngine()
+{
+	if (m_graphics)
+	{
+		m_graphics->Terminate();
+	}
+
+	CallbackContainer::destroy_instance();
+}
+
 bool TemporalEngine::Initialize(const EngineParams&)
 {
-	auto pGraphics = mFactory.Resolve<IGraphics>();
-	if (!pGraphics)
+	m_graphics = m_Factory.Resolve<IGraphics>();
+	if (!m_graphics)
 	{
 		return false;
 	}
 
 	// Initialize Graphics
-	if (!pGraphics->Init())
+	if (!m_graphics->Init())
 	{
 		return false;
 	}
@@ -22,7 +39,7 @@ bool TemporalEngine::Initialize(const EngineParams&)
 	const int kAppWidth = 1024;
 	const int kAppHeight = 576;
 	const bool kFullscreen = false;
-	if (!pGraphics->OpenWindow({ kAppWidth, kAppHeight, 8, 8, 8, 8, 24, 8, kFullscreen ? GLFW_FULLSCREEN : GLFW_WINDOW }))
+	if (!m_graphics->OpenWindow({ kAppWidth, kAppHeight, 8, 8, 8, 8, 24, 8, kFullscreen ? GLFW_FULLSCREEN : GLFW_WINDOW }))
 	{
 		return false;
 	}
@@ -30,30 +47,24 @@ bool TemporalEngine::Initialize(const EngineParams&)
 	return true;
 }
 
-bool TemporalEngine::SetState(const std::string&)
+bool TemporalEngine::SetState(const std::string& strState)
 {
-	return true;
-}
-
-bool TemporalEngine::Launch()
-{
-
-	// End of application
-	return true;
-}
-
-TemporalEngine::TemporalEngine(const NUtility::FancyFactory& factory)
-	: mFactory(factory)
-{
-}
-
-TemporalEngine::~TemporalEngine()
-{
-	auto pGraphics = mFactory.Resolve<IGraphics>();
-	if (!pGraphics)
+	m_currentEngineState.reset();
+	m_currentEngineState = m_Factory.Resolve<IEngineState>(strState);
+	if (!m_currentEngineState)
 	{
-		return;
+		return false;
 	}
 
-	pGraphics->Terminate();
+	m_currentEngineState->RegisterCallbacks();
+	return true;
+}
+
+void TemporalEngine::Launch()
+{
+	while (m_currentEngineState->ShouldRun())
+	{
+		m_currentEngineState->Draw();
+		m_graphics->PollEvents();
+	}
 }

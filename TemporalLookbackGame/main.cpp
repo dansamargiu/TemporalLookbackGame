@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TemporalEngine.h"
-#include "TemporalLookbackFactories.h"
+#include "FactoryRegistry.h"
+#include <iostream>
 
 static std::string ExtractAppPath(char *fullPath)
 {
@@ -23,27 +24,23 @@ int main(int, char** argv)
 {
 	// Initialize Factory Pattern
 	NUtility::FancyFactory factory;
-	TemporalLookbackFactories::SetupEngineFactories(factory);
+	FactoryRegistry::SetupEngineFactories(factory);
 
 	// Initialize Engine
 	TemporalEngine engine(factory);
-	EngineParams params = { ExtractAppPath(argv[0]) };
-	if (!engine.Initialize(params))
+	if (!engine.Initialize({ ExtractAppPath(argv[0]) }))
 	{
 		return -1;
 	}
 
 	// Set first engine state to main menu.
-	if (!engine.SetState("MAIN_MENU"))
+	if (!engine.SetState(MAIN_MENU))
 	{
 		return -1;
 	}
 
 	// Launch the engine.
-	if (!engine.Launch())
-	{
-		return -1;
-	}
+	engine.Launch();
 
 	return 0;
 }

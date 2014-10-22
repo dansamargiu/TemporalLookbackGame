@@ -9,4 +9,6 @@
 #include <tchar.h>
 
 #include "EngineDefines.h"
+#include "EngineStringLiterals.h"
 #include "FancyFactory.h"
+#include "Singleton.h"

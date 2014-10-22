@@ -247,13 +247,21 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FactoryRegistry.cpp" />
+    <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TemporalEngine.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClInclude Include="CallbackContainer.h" />
     <ClInclude Include="EngineDefines.h" />
+    <ClInclude Include="EngineGlobals.h" />
+    <ClInclude Include="EngineStringLiterals.h" />
+    <ClInclude Include="IEngineState.h" />
     <ClInclude Include="IGraphics.h" />
+    <ClInclude Include="MenuState.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="TemporalLookbackFactories.h" />
+    <ClInclude Include="FactoryRegistry.h" />
     <ClInclude Include="FancyFactory.h" />
     <ClInclude Include="TemporalEngine.h" />
   </ItemGroup>

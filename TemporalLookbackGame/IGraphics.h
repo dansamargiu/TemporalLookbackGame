@@ -1,6 +1,8 @@
 #pragma once
 
 #include "glfw.h"
+#include "CallbackContainer.h"
+#include "EngineGlobals.h"
 
 namespace NEngine
 {
@@ -22,11 +24,12 @@ namespace NEngine
 	public:
 		virtual ~IGraphics() {};
 		virtual bool Init() = 0;
-		virtual bool OpenWindow(GraphicsOpenWindowParams params) = 0;
+		virtual bool OpenWindow(const GraphicsOpenWindowParams& params) = 0;
 		virtual void Terminate() = 0;
-
-	private:
-
+		virtual void PollEvents() = 0;
+		virtual void SetWindowCloseCallback() = 0;
+		virtual void SetKeyCallback() = 0;
+		virtual void SetMousePosCallback() = 0;
 	};
 
 	class GLFWGraphics : public IGraphics
@@ -42,7 +45,7 @@ namespace NEngine
 			glfwTerminate();
 		}
 
-		virtual bool OpenWindow(GraphicsOpenWindowParams params) override
+		virtual bool OpenWindow(const GraphicsOpenWindowParams& params) override
 		{
 			return GL_TRUE == glfwOpenWindow(
 				params.width,
@@ -54,6 +57,26 @@ namespace NEngine
 				params.depthbits,
 				params.stencilbits,
 				params.mode);
+		}
+
+		virtual void PollEvents() override
+		{
+			glfwSwapBuffers();
+		}
+
+		virtual void SetWindowCloseCallback() override
+		{
+			glfwSetWindowCloseCallback([]() { return CallbackContainer::get_instance()->WindowClose(); });
+		}
+
+		virtual void SetKeyCallback() override
+		{
+			glfwSetKeyCallback([](int key, int action) { CallbackContainer::get_instance()->SetKey(key, action); });
+		}
+
+		virtual void SetMousePosCallback() override
+		{
+			glfwSetMousePosCallback([](int x, int y) { CallbackContainer::get_instance()->SetMousePos(x, y);  });
 		}
 	};
 }

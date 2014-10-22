@@ -22,7 +22,7 @@ namespace NUtility
 		}
 
 		template <typename I>
-		void Unregister(const std::wstring& strNamedRegistration)
+		void Unregister(const std::string& strNamedRegistration)
 		{
 			// Iterate through list and unregister all types that match this index
 			auto it = m_factoryList.begin();
@@ -41,7 +41,7 @@ namespace NUtility
 		}
 
 		template <typename I>
-		std::shared_ptr<I> Resolve(const std::wstring& strNamedRegistration) const
+		std::shared_ptr<I> Resolve(const std::string& strNamedRegistration) const
 		{
 			// Iterate through our list, looking for type_index of I and named registration combination.
 			for (const auto& element : m_factoryList)
@@ -57,21 +57,21 @@ namespace NUtility
 		}
 		
 		template <typename I>
-		void RegisterInstance(const std::wstring& strNamedRegistration, std::shared_ptr<I> pInstance)
+		void RegisterInstance(const std::string& strNamedRegistration, std::shared_ptr<I> pInstance)
 		{
 			auto tFactory = [=] { return pInstance; };
 			RegistrationHelper<I>(strNamedRegistration, tFactory);
 		}
 
 		template <typename I, typename T>
-		void RegisterType(const std::wstring& strNamedRegistration)
+		void RegisterType(const std::string& strNamedRegistration)
 		{
 			auto tFactory = [&] { return std::make_shared<T>(); };
 			RegistrationHelper<I>(strNamedRegistration, tFactory);
 		}
 
 		template <typename I, typename T>
-		void RegisterTypeWithFactoryReference(const std::wstring& strNamedRegistration)
+		void RegisterTypeWithFactoryReference(const std::string& strNamedRegistration)
 		{
 			auto tFactory = [&] { return std::make_shared<T>(*this); };
 			RegistrationHelper<I>(strNamedRegistration, tFactory);
@@ -80,34 +80,34 @@ namespace NUtility
 		template <typename I>
 		std::shared_ptr<I> Resolve() const
 		{
-			return Resolve<I>(L"NO_NAME");
+			return Resolve<I>("NO_NAME");
 		}
 
 		template <typename I>
 		void RegisterInstance(std::shared_ptr<I> pInstance)
 		{
-			RegisterInstance<I>(L"NO_NAME", pInstance);
+			RegisterInstance<I>("NO_NAME", pInstance);
 		}
 
 		template <typename I, typename T>
 		void RegisterType()
 		{
-			RegisterType<I, T>(L"NO_NAME");
+			RegisterType<I, T>("NO_NAME");
 		}
 
 		template <typename I, typename T>
 		void RegisterTypeWithFactoryReference()
 		{
-			RegisterTypeWithFactoryReference<I, T>(L"NO_NAME");
+			RegisterTypeWithFactoryReference<I, T>("NO_NAME");
 		}
 
 	private:
 		typedef std::function<std::shared_ptr<void>()> TFactory;
-		typedef std::pair<std::type_index, std::wstring> TIndex;
+		typedef std::pair<std::type_index, std::string> TIndex;
 		std::vector<std::pair<TIndex, TFactory>> m_factoryList;
 
 		template <typename I>
-		void RegistrationHelper(const std::wstring& strNamedRegistration, TFactory&& tFactory)
+		void RegistrationHelper(const std::string& strNamedRegistration, TFactory&& tFactory)
 		{
 			// Always unregister so we don't end up with duplicate entries.
 			Unregister<I>(strNamedRegistration);
