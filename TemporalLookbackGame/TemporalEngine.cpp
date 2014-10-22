@@ -4,7 +4,7 @@
 
 using namespace NEngine;
 
-bool TemporalEngine::Initialize(const EngineParams& params)
+bool TemporalEngine::Initialize(const EngineParams&)
 {
 	auto pGraphics = mFactory.Resolve<IGraphics>();
 	if (!pGraphics)
@@ -30,7 +30,7 @@ bool TemporalEngine::Initialize(const EngineParams& params)
 	return true;
 }
 
-bool TemporalEngine::SetState(const std::string& stateName)
+bool TemporalEngine::SetState(const std::string&)
 {
 	return true;
 }

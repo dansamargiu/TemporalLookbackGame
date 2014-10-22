@@ -1,13 +1,14 @@
 #pragma once
 #include "IGraphics.h"
 
-using namespace NEngine;
-
-class TemporalLookbackFactories
+namespace NEngine 
 {
-public:
-	static void SetupEngineFactories(NUtility::FancyFactory& factory)
+	class TemporalLookbackFactories
 	{
-		factory.RegisterType<IGraphics, GLFWGraphics>();
-	}
-};
+	public:
+		static void SetupEngineFactories(NUtility::FancyFactory& factory)
+		{
+			factory.RegisterType<IGraphics, GLFWGraphics>();
+		}
+	};
+}
