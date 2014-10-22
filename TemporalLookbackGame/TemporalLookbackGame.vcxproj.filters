@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="app.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="TemporalEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="app.h">
+    <ClInclude Include="TemporalEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AppState.h">
+    <ClInclude Include="FancyFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TemporalLookbackFactories.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IGraphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
