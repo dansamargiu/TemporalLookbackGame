@@ -20,6 +20,7 @@
 #include "Horde3DUtils.h"
 #include <math.h>
 #include <iomanip>
+#include "IResourceManager.h"
 
 using namespace std;
 
@@ -29,9 +30,9 @@ inline float degToRad(float f)
 	return f * (3.1415926f / 180.0f);
 }
 
-
-KnightDemoApp::KnightDemoApp(const std::string &appPath)
+bool KnightDemoApp::init()
 {
+	// Initialize members.
 	for (unsigned int i = 0; i < 320; ++i)
 	{
 		_keys[i] = false;
@@ -45,12 +46,6 @@ KnightDemoApp::KnightDemoApp(const std::string &appPath)
 	_freezeMode = 0; _debugViewMode = false; _wireframeMode = false;
 	_animTime = 0; _weight = 1.0f;
 
-	_contentDir = appPath + "..\\..\\..\\Content";
-}
-
-
-bool KnightDemoApp::init()
-{
 	// Set options
 	h3dSetOption(H3DOptions::LoadTextures, 1);
 	h3dSetOption(H3DOptions::TexCompression, 0);
@@ -72,11 +67,9 @@ bool KnightDemoApp::init()
 	// Particle system
 	H3DRes particleSysRes = h3dAddResource(H3DResTypes::SceneGraph, "particles/particleSys1/particleSys1.scene.xml", 0);
 
-	// Load resources
-	if (!h3dutLoadResourcesFromDisk(_contentDir.c_str()))
-	{
-		return false;
-	}
+	auto m_resourceManager = m_factory.Resolve<NEngine::IResourceManager>();
+	if (!m_resourceManager || !m_resourceManager->Initialize()) return false;
+	if (!m_resourceManager->LoadResources()) return false;
 
 	// Add scene nodes
 	// Add environment

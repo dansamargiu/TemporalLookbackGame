@@ -2,7 +2,7 @@
 #include "BasicCameraNode.h"
 #include "IRenderer.h"
 #include "IResourceManager.h"
-#include "Horde3D.h"
+#include "Horde3D.h" // Need it for the enums.
 
 using namespace NEngine;
 
@@ -15,6 +15,7 @@ bool BasicCameraNode::Initialize()
 	if (!m_renderer) return false;
 
 	m_pipelineHandle = m_resourceManager->AddResource(H3DResTypes::Pipeline, "pipelines/hdr.pipeline.xml", 0);
+	if (!m_resourceManager->LoadResources()) return false;
 	m_camHandle = m_renderer->AddCameraNode(m_renderer->GetRootNode(), "Camera", m_pipelineHandle);
 
 	// Initial TSR

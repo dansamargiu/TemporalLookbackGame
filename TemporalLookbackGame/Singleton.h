@@ -6,10 +6,12 @@ namespace NUtility
 	class Singleton
 	{
 	public:
+		virtual ~Singleton() {}
+
 		template <typename... Args>
 		static
 			T* get_instance(Args... args)
-		{
+			{
 				if (!instance_)
 				{
 					instance_ = new T(std::forward<Args>(args)...);
@@ -20,7 +22,7 @@ namespace NUtility
 
 		static
 			void destroy_instance()
-		{
+			{
 				delete instance_;
 				instance_ = nullptr;
 			}

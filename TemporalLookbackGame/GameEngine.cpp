@@ -8,8 +8,6 @@ using namespace NEngine;
 GameEngine::~GameEngine()
 {
 	if (m_graphics) m_graphics->Terminate();
-	if (m_renderer) m_renderer->Release();
-	CallbackContainer::destroy_instance();
 }
 
 bool GameEngine::Initialize(const EngineParams& params)
@@ -26,10 +24,6 @@ bool GameEngine::Initialize(const EngineParams& params)
 	{
 		return false;
 	}
-
-	// Initialize Renderer
-	m_renderer = m_factory.Resolve<IRenderer>();
-	if (!m_renderer || !m_renderer->Initialize()) return false;
 
 	return true;
 }
@@ -49,10 +43,6 @@ bool GameEngine::SetState(const std::string& strState)
 	{
 		return false;
 	}
-
-	// Point the CallbackContainer at the right engine state obj.
-	CallbackContainer::destroy_instance();
-	CallbackContainer::get_instance(m_currentEngineState);
 
 	// Register the graphics callbacks.
 	m_graphics->SetWindowCloseCallback();

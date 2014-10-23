@@ -11,9 +11,11 @@ namespace NEngine
 		{
 		}
 
-		CallbackContainer(std::shared_ptr<IEngineState> engineState) : m_engineState(engineState)
+		CallbackContainer(IEngineState* engineState) : m_engineState(engineState)
 		{
 		}
+
+		virtual ~CallbackContainer() {}
 
 	public:
 		int WindowClose()
@@ -37,6 +39,6 @@ namespace NEngine
 		}
 
 	private:
-		std::shared_ptr<IEngineState> m_engineState;
+		IEngineState* m_engineState;
 	};
 }

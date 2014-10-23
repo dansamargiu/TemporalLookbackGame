@@ -25,8 +25,7 @@
 class KnightDemoApp
 {
 public:
-	KnightDemoApp(const std::string &appPath);
-
+	FACTORY_HOLDER(KnightDemoApp);
 	void setKeyState(int key, bool state) { _prevKeys[key] = _keys[key]; _keys[key] = state; }
 
 	const char *getTitle() { return "Knight - Horde3D Sample"; }

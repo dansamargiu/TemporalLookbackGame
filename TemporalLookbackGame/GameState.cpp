@@ -2,17 +2,33 @@
 #include "GameState.h"
 #include "glfw.h" // TODO: remove once we abstract this away
 #include "Horde3DUtils.h"
+#include "IResourceManager.h"
+#include "CallbackContainer.h"
 
 using namespace NEngine;
+
+GameState::~GameState()
+{
+	// Destroy the CallbackContainer
+	CallbackContainer::destroy_instance();
+
+	// The Game state is effectively responsible for managing this object.
+	// We should only call this here.
+	if (m_renderer) m_renderer->Release();
+}
 
 bool GameState::Initialize(const EngineParams& params)
 {
 	// Initialize members
 	m_shouldRun = true;
 
-	// Get the renderer object
+	// Point the CallbackContainer at the right engine state obj.
+	CallbackContainer::get_instance(this);
+
+	// Get the renderer object and initialize it. 
+	// This should be the only place we initialize this object.
 	m_renderer = m_factory.Resolve<IRenderer>();
-	if (!m_renderer) return false;
+	if (!m_renderer || !m_renderer->Initialize()) return false;
 
 	// Initialize Camera node
 	m_camera = m_factory.Resolve<ICameraNode>();
@@ -20,8 +36,9 @@ bool GameState::Initialize(const EngineParams& params)
 	m_camera->Resize(params.winWidth, params.winHeight);
 
 	// Initialize demo app. TODO: Remove this once everything is flushed out.
-	m_knightDemo = std::make_shared<KnightDemoApp>(params.appPath);
+	m_knightDemo = std::make_shared<KnightDemoApp>(m_factory);
 	if (!m_knightDemo->init()) return false;
+
 	return true;
 }
 
@@ -40,10 +57,9 @@ void GameState::StateLoop(float fps)
 	// Camera Render
 	m_camera->Render();
 
-	// Render
+	// Render Demo
 	m_knightDemo->mainLoop(fps);
 
-	// Finish rendering of frame
 	m_renderer->FinalizeFrame();
 }
 
