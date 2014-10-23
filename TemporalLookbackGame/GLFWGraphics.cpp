@@ -4,7 +4,7 @@
 
 using namespace NEngine;
 
-bool GLFWGraphics::Init()
+bool GLFWGraphics::Initialize()
 {
 	return GL_TRUE == glfwInit();
 }

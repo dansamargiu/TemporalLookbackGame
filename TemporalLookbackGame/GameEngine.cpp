@@ -12,6 +12,11 @@ GameEngine::~GameEngine()
 		m_graphics->Terminate();
 	}
 
+	if (m_renderer)
+	{
+		m_renderer->Release();
+	}
+
 	CallbackContainer::destroy_instance();
 }
 
@@ -20,20 +25,22 @@ bool GameEngine::Initialize(const EngineParams& params)
 	// Copy the params
 	m_params = params;
 
+	// Initialize graphics
 	m_graphics = m_factory.Resolve<IGraphics>();
-	if (!m_graphics)
-	{
-		return false;
-	}
-
-	// Initialize Graphics
-	if (!m_graphics->Init())
+	if (!m_graphics || !m_graphics->Initialize())
 	{
 		return false;
 	}
 
 	// Open the main window
 	if (!m_graphics->OpenWindow({ params.winWidth, params.winHeight, 8, 8, 8, 8, 24, 8, params.fullscreen ? GLFW_FULLSCREEN : GLFW_WINDOW }))
+	{
+		return false;
+	}
+
+	// Initialize Renderer
+	m_renderer = m_factory.Resolve<IRenderer>();
+	if (!m_renderer || !m_renderer->Initialize())
 	{
 		return false;
 	}

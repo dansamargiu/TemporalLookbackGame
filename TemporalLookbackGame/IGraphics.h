@@ -18,7 +18,7 @@ namespace NEngine
 	{
 	public:
 		virtual ~IGraphics() {};
-		virtual bool Init() = 0;
+		virtual bool Initialize() = 0;
 		virtual bool OpenWindow(const GraphicsOpenWindowParams& params) = 0;
 		virtual void Terminate() = 0;
 		virtual void PollEvents() = 0;

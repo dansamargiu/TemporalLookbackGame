@@ -7,7 +7,7 @@ namespace NEngine
 	class GLFWGraphics : public IGraphics
 	{
 	public:
-		virtual bool Init() override;
+		virtual bool Initialize() override;
 		virtual void Terminate() override;
 		virtual bool OpenWindow(const GraphicsOpenWindowParams& params) override;
 		virtual void PollEvents() override;
