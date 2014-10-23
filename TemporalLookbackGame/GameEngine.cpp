@@ -1,17 +1,14 @@
 #include "stdafx.h"
-#include "TemporalEngine.h"
-#include "IGraphics.h"
-#include "IEngineState.h"
-#include "EngineGlobals.h"
+#include "GameEngine.h"
 
 using namespace NEngine;
 
-TemporalEngine::TemporalEngine(const NUtility::FancyFactory& factory)
+GameEngine::GameEngine(const NUtility::FancyFactory& factory)
 : m_Factory(factory), m_graphics(nullptr), m_currentEngineState(nullptr)
 {
 }
 
-TemporalEngine::~TemporalEngine()
+GameEngine::~GameEngine()
 {
 	if (m_graphics)
 	{
@@ -21,7 +18,7 @@ TemporalEngine::~TemporalEngine()
 	CallbackContainer::destroy_instance();
 }
 
-bool TemporalEngine::Initialize(const EngineParams& params)
+bool GameEngine::Initialize(const EngineParams& params)
 {
 	// Copy the params
 	m_params = params;
@@ -47,7 +44,7 @@ bool TemporalEngine::Initialize(const EngineParams& params)
 	return true;
 }
 
-bool TemporalEngine::SetState(const std::string& strState)
+bool GameEngine::SetState(const std::string& strState)
 {
 	// Clear the previous engine state object ptr and resolve the new one.
 	m_currentEngineState.reset();
@@ -74,7 +71,7 @@ bool TemporalEngine::SetState(const std::string& strState)
 	return true;
 }
 
-void TemporalEngine::Launch()
+void GameEngine::Launch()
 {
 	int frames = 0;
 	float fps = 30.0f;

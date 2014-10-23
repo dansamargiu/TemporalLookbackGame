@@ -5,11 +5,11 @@
 
 namespace NEngine
 {
-	class TemporalEngine
+	class GameEngine
 	{
 	public:
-		TemporalEngine(const NUtility::FancyFactory& factory);
-		virtual ~TemporalEngine();
+		GameEngine(const NUtility::FancyFactory& factory);
+		virtual ~GameEngine();
 
 		bool Initialize(const EngineParams& params);
 		bool SetState(const std::string& stateName);
@@ -20,6 +20,6 @@ namespace NEngine
 		std::shared_ptr<IGraphics> m_graphics;
 		std::shared_ptr<IEngineState> m_currentEngineState;
 
-		DISALLOW_COPY_AND_ASSIGN(TemporalEngine);
+		DISALLOW_COPY_AND_ASSIGN(GameEngine);
 	};
 }

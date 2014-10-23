@@ -1,6 +1,6 @@
 #pragma once
 #include "IGraphics.h"
-#include "MenuState.h"
+#include "GameState.h"
 
 namespace NEngine 
 {

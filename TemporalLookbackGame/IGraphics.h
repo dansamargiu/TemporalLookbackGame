@@ -2,7 +2,6 @@
 
 #include "glfw.h"
 #include "CallbackContainer.h"
-#include "EngineGlobals.h"
 
 namespace NEngine
 {

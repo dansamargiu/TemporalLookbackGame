@@ -1,15 +1,18 @@
 #pragma once
 #include "IGraphics.h"
-#include "TemporalEngine.h"
+#include "IRenderer.h"
+#include "ICameraNode.h"
+
+// TODO: Remove
 #include "KnightDemoApp.h"
 
 namespace NEngine 
 {
-	class MenuState : public IEngineState
+	class GameState : public IEngineState
 	{
 	public:
-		MenuState(const NUtility::FancyFactory& factory);
-		virtual ~MenuState();
+		GameState(const NUtility::FancyFactory& factory);
+		virtual ~GameState();
 
 		virtual bool Initialize(const EngineParams& params) override;
 		virtual void Draw(float fps) override;
@@ -22,8 +25,10 @@ namespace NEngine
 		const NUtility::FancyFactory& m_factory;
 		bool m_shouldRun;
 		std::shared_ptr<KnightDemoApp> m_knightDemo;
+		std::shared_ptr<IRenderer> m_renderer;
+		std::shared_ptr<ICameraNode> m_camera;
 
-		DISALLOW_COPY_AND_ASSIGN(MenuState);
+		DISALLOW_COPY_AND_ASSIGN(GameState);
 		
 	};
 }

@@ -6,5 +6,5 @@ using namespace NEngine;
 void FactoryRegistry::SetupEngineFactories(NUtility::FancyFactory& factory)
 {
 	factory.RegisterType<IGraphics, GLFWGraphics>();
-	factory.RegisterTypeWithFactoryRef<IEngineState, MenuState>(MAIN_MENU);
+	factory.RegisterTypeWithFactoryRef<IEngineState, GameState>(GAME_STATE);
 }

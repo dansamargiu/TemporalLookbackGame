@@ -4,5 +4,5 @@
 
 namespace NEngine
 {
-	const char MAIN_MENU[] = "MAIN_MENU";
+	const char GAME_STATE[] = "GAME_STATE";
 }

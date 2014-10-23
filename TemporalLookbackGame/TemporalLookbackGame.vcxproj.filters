@@ -4,13 +4,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TemporalEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FactoryRegistry.cpp">
@@ -19,24 +13,18 @@
     <ClCompile Include="KnightDemoApp.cpp">
       <Filter>Demo</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TemporalEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IGraphics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EngineDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IEngineState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EngineStringLiterals.h">
@@ -46,9 +34,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CallbackContainer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineGlobals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FancyFactory.h">
@@ -63,6 +48,24 @@
     <ClInclude Include="KnightDemoApp.h">
       <Filter>Demo</Filter>
     </ClInclude>
+    <ClInclude Include="IGraphics.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IEngineState.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ICameraNode.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderer.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files\Concrete</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine.h">
+      <Filter>Header Files\Concrete</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -76,6 +79,12 @@
     </Filter>
     <Filter Include="Demo">
       <UniqueIdentifier>{d5921c01-c35a-4309-b49a-e03bc279d3c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{c4c26dd2-09c0-4b4e-b40f-700228abbce5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Concrete">
+      <UniqueIdentifier>{56f9f060-826a-4028-b753-3d5d8b9c5c04}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

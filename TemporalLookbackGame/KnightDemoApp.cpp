@@ -92,7 +92,6 @@ bool KnightDemoApp::init()
 	// Add scene nodes
 	// Add camera
 	_cam = h3dAddCameraNode(H3DRootNode, "Camera", _hdrPipeRes);
-	//h3dSetNodeParamI( _cam, H3DCamera::OccCullingI, 1 );
 	// Add environment
 	H3DNode env = h3dAddNodes(H3DRootNode, envRes);
 	h3dSetNodeTransform(env, 0, -20, 0, 0, 0, 0, 20, 20, 20);

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "TemporalEngine.h"
+#include "GameEngine.h"
 #include "FactoryRegistry.h"
 #include <iostream>
 
@@ -27,7 +27,7 @@ int main(int, char** argv)
 	FactoryRegistry::SetupEngineFactories(factory);
 
 	// Initialize Engine
-	TemporalEngine engine(factory);
+	GameEngine engine(factory);
 	const int kAppWidth = 1024;
 	const int kAppHeight = 576;
 	const bool kFullscreen = false;
@@ -37,7 +37,7 @@ int main(int, char** argv)
 	}
 
 	// Set first engine state to main menu.
-	if (!engine.SetState(MAIN_MENU))
+	if (!engine.SetState(GAME_STATE))
 	{
 		return -1;
 	}

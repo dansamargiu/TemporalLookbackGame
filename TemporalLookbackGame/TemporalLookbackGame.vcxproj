@@ -249,24 +249,25 @@
   <ItemGroup>
     <ClCompile Include="FactoryRegistry.cpp" />
     <ClCompile Include="KnightDemoApp.cpp" />
-    <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="TemporalEngine.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClInclude Include="CallbackContainer.h" />
     <ClInclude Include="EngineDefines.h" />
-    <ClInclude Include="EngineGlobals.h" />
     <ClInclude Include="EngineParams.h" />
     <ClInclude Include="EngineStringLiterals.h" />
+    <ClInclude Include="ICameraNode.h" />
     <ClInclude Include="IEngineState.h" />
     <ClInclude Include="IGraphics.h" />
+    <ClInclude Include="IRenderer.h" />
     <ClInclude Include="KnightDemoApp.h" />
-    <ClInclude Include="MenuState.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="FactoryRegistry.h" />
     <ClInclude Include="FancyFactory.h" />
-    <ClInclude Include="TemporalEngine.h" />
+    <ClInclude Include="GameEngine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
