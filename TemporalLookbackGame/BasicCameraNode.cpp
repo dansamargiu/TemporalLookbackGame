@@ -46,3 +46,8 @@ void BasicCameraNode::Render()
 	m_renderer->SetTransform(m_camHandle, m_camTSR);
 	m_renderer->Render(m_camHandle);
 }
+
+ObjectTSR* NEngine::BasicCameraNode::TSR()
+{
+	return &m_camTSR;
+}

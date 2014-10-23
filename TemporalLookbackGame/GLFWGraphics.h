@@ -11,9 +11,7 @@ namespace NEngine
 		virtual void Terminate() override;
 		virtual bool OpenWindow(const GraphicsOpenWindowParams& params) override;
 		virtual void PollEvents() override;
-		virtual void SetWindowCloseCallback() override;
-		virtual void SetKeyCallback() override;
-		virtual void SetMousePosCallback() override;
+		virtual void SetCallbacks() override;
 		virtual double GetTime() override;
 	};
 }

@@ -6,7 +6,8 @@ using namespace NEngine;
 
 bool GLFWGraphics::Initialize()
 {
-	return GL_TRUE == glfwInit();
+	if (GL_TRUE != glfwInit()) return false;
+	return true;
 }
 
 double GLFWGraphics::GetTime()
@@ -14,18 +15,10 @@ double GLFWGraphics::GetTime()
 	return glfwGetTime();
 }
 
-void GLFWGraphics::SetMousePosCallback()
+void GLFWGraphics::SetCallbacks()
 {
 	glfwSetMousePosCallback([](int x, int y) { CallbackContainer::get_instance()->SetMousePos(x, y); });
-}
-
-void GLFWGraphics::SetKeyCallback()
-{
 	glfwSetKeyCallback([](int key, int action) { CallbackContainer::get_instance()->SetKey(key, action); });
-}
-
-void GLFWGraphics::SetWindowCloseCallback()
-{
 	glfwSetWindowCloseCallback([]() { return CallbackContainer::get_instance()->WindowClose(); });
 }
 

@@ -9,6 +9,8 @@ using namespace NEngine;
 
 GameState::~GameState()
 {
+	glfwEnable(GLFW_MOUSE_CURSOR);
+
 	// Destroy the CallbackContainer
 	CallbackContainer::destroy_instance();
 
@@ -19,11 +21,14 @@ GameState::~GameState()
 
 bool GameState::Initialize(const EngineParams& params)
 {
+	glfwDisable(GLFW_MOUSE_CURSOR);
+
+	// Make the Callbacks point to this object.
+	CallbackContainer::destroy_instance();
+	CallbackContainer::get_instance(this);
+
 	// Initialize members
 	m_shouldRun = true;
-
-	// Point the CallbackContainer at the right engine state obj.
-	CallbackContainer::get_instance(this);
 
 	// Get the renderer object and initialize it. 
 	// This should be the only place we initialize this object.
@@ -86,6 +91,23 @@ void GameState::SetKeyCallback(int key, int action)
 
 void GameState::SetMousePosCallback(int x, int y)
 {
-	(void)x;
-	(void)y;
+	static int mx0, my0;
+	if (!m_shouldRun)
+	{
+		mx0 = x; my0 = y;
+		return;
+	}
+
+	float dX = (float)(x - mx0);
+	float dY = (float)(my0 - y);
+
+	// Look left/right
+	m_camera->TSR()->r.y -= dX / 100 * 30;
+
+	// Loop up/down but only in a limited range
+	m_camera->TSR()->r.x += dY / 100 * 30;
+	if (m_camera->TSR()->r.x > 90) m_camera->TSR()->r.x = 90;
+	if (m_camera->TSR()->r.x < -90) m_camera->TSR()->r.x = -90;
+
+	mx0 = x; my0 = y;
 }

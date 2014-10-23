@@ -12,6 +12,8 @@ namespace NEngine
 		virtual bool Initialize() override;
 		virtual void Resize(int width, int height) override;
 		virtual void Render() override;
+
+		virtual ObjectTSR* TSR() override;
 	private:
 		std::shared_ptr<IRenderer> m_renderer;
 		ObjectTSR m_camTSR;

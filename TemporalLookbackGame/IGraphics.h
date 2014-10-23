@@ -23,9 +23,7 @@ namespace NEngine
 		virtual bool OpenWindow(const GraphicsOpenWindowParams& params) = 0;
 		virtual void Terminate() = 0;
 		virtual void PollEvents() = 0;
-		virtual void SetWindowCloseCallback() = 0;
-		virtual void SetKeyCallback() = 0;
-		virtual void SetMousePosCallback() = 0;
+		virtual void SetCallbacks() = 0;
 		virtual double GetTime() = 0;
 	};
 }

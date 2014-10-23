@@ -1,4 +1,5 @@
 #pragma once
+#include "TSRStructs.h"
 
 namespace NEngine
 {
@@ -9,5 +10,6 @@ namespace NEngine
 		virtual bool Initialize() = 0;
 		virtual void Resize(int width, int height) = 0;
 		virtual void Render() = 0;
+		virtual ObjectTSR* TSR() = 0;
 	};
 }

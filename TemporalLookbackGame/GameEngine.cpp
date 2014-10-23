@@ -45,9 +45,7 @@ bool GameEngine::SetState(const std::string& strState)
 	}
 
 	// Register the graphics callbacks.
-	m_graphics->SetWindowCloseCallback();
-	m_graphics->SetKeyCallback();
-	m_graphics->SetMousePosCallback();
+	m_graphics->SetCallbacks();
 	return true;
 }
 
