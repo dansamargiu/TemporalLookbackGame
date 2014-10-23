@@ -19,4 +19,9 @@ bool Horde3DResourceManager::LoadResources()
 	return h3dutLoadResourcesFromDisk(m_contentDir.c_str());
 }
 
+int NEngine::Horde3DResourceManager::AddResource(int type, const char *name, int flags)
+{
+	return h3dAddResource(type, name, flags);
+}
+
 

@@ -262,6 +262,7 @@
     <ClInclude Include="EngineDefines.h" />
     <ClInclude Include="EngineParams.h" />
     <ClInclude Include="EngineStringLiterals.h" />
+    <ClInclude Include="TSRStructs.h" />
     <ClInclude Include="GLFWGraphics.h" />
     <ClInclude Include="Horde3DRenderer.h" />
     <ClInclude Include="Horde3DResourceManager.h" />

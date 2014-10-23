@@ -33,7 +33,6 @@ public:
 
 	bool init();
 	void mainLoop(float fps);
-	void resize(int width, int height);
 
 	void keyStateHandler();
 	void mouseMoveEvent(float dX, float dY);
@@ -53,8 +52,8 @@ private:
 
 	// Engine objects
 	H3DRes             _fontMatRes, _panelMatRes;
-	H3DRes             _pipeRes, _logoMatRes, _hdrPipeRes, _forwardPipeRes;
-	H3DNode            _cam, _knight, _particleSys;
+	H3DRes             _logoMatRes;
+	H3DNode            _knight, _particleSys;
 
 	std::string        _contentDir;
 };

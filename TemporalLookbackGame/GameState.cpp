@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameState.h"
 #include "glfw.h" // TODO: remove once we abstract this away
+#include "Horde3DUtils.h"
 
 using namespace NEngine;
 
@@ -16,12 +17,11 @@ bool GameState::Initialize(const EngineParams& params)
 	// Initialize Camera node
 	m_camera = m_factory.Resolve<ICameraNode>();
 	if (!m_camera || !m_camera->Initialize()) return false;
+	m_camera->Resize(params.winWidth, params.winHeight);
 
 	// Initialize demo app. TODO: Remove this once everything is flushed out.
 	m_knightDemo = std::make_shared<KnightDemoApp>(params.appPath);
 	if (!m_knightDemo->init()) return false;
-
-	m_knightDemo->resize(params.winWidth, params.winHeight);
 	return true;
 }
 
@@ -37,8 +37,14 @@ void GameState::StateLoop(float fps)
 		m_knightDemo->setKeyState(i, glfwGetKey(i) == GLFW_PRESS);
 	m_knightDemo->keyStateHandler();
 
+	// Camera Render
+	m_camera->Render();
+
 	// Render
 	m_knightDemo->mainLoop(fps);
+
+	// Finish rendering of frame
+	m_renderer->FinalizeFrame();
 }
 
 int GameState::WindowCloseCallback()

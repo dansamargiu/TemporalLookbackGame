@@ -44,7 +44,6 @@ KnightDemoApp::KnightDemoApp(const std::string &appPath)
 	_statMode = 0;
 	_freezeMode = 0; _debugViewMode = false; _wireframeMode = false;
 	_animTime = 0; _weight = 1.0f;
-	_cam = 0;
 
 	_contentDir = appPath + "..\\..\\..\\Content";
 }
@@ -60,9 +59,6 @@ bool KnightDemoApp::init()
 	h3dSetOption(H3DOptions::ShadowMapSize, 2048);
 
 	// Add resources
-	// Pipelines
-	_hdrPipeRes = h3dAddResource(H3DResTypes::Pipeline, "pipelines/hdr.pipeline.xml", 0);
-	_forwardPipeRes = h3dAddResource(H3DResTypes::Pipeline, "pipelines/forward.pipeline.xml", 0);
 	// Overlays
 	_fontMatRes = h3dAddResource(H3DResTypes::Material, "overlays/font.material.xml", 0);
 	_panelMatRes = h3dAddResource(H3DResTypes::Material, "overlays/panel.material.xml", 0);
@@ -83,8 +79,6 @@ bool KnightDemoApp::init()
 	}
 
 	// Add scene nodes
-	// Add camera
-	_cam = h3dAddCameraNode(H3DRootNode, "Camera", _hdrPipeRes);
 	// Add environment
 	H3DNode env = h3dAddNodes(H3DRootNode, envRes);
 	h3dSetNodeTransform(env, 0, -20, 0, 0, 0, 0, 20, 20, 20);
@@ -142,9 +136,6 @@ void KnightDemoApp::mainLoop(float fps)
 			h3dAdvanceEmitterTime(h3dGetNodeFindResult(i), 1.0f / _curFPS);
 	}
 
-	// Set camera parameters
-	h3dSetNodeTransform(_cam, _x, _y, _z, _rx, _ry, 0, 1, 1, 1);
-
 	// Show stats
 	h3dutShowFrameStats(_fontMatRes, _panelMatRes, _statMode);
 	if (_statMode > 0)
@@ -154,40 +145,7 @@ void KnightDemoApp::mainLoop(float fps)
 		_text << fixed << setprecision(2) << "Weight: " << _weight;
 		h3dutShowText(_text.str().c_str(), 0.03f, 0.24f, 0.026f, 1, 1, 1, _fontMatRes);
 	}
-
-	// Show logo
-	const float ww = (float)h3dGetNodeParamI(_cam, H3DCamera::ViewportWidthI) /
-		(float)h3dGetNodeParamI(_cam, H3DCamera::ViewportHeightI);
-	const float ovLogo[] = { ww - 0.4f, 0.8f, 0, 1, ww - 0.4f, 1, 0, 0, ww, 1, 1, 0, ww, 0.8f, 1, 1 };
-	h3dShowOverlays(ovLogo, 4, 1.f, 1.f, 1.f, 1.f, _logoMatRes, 0);
-
-	// Render scene
-	h3dRender(_cam);
-
-	// Finish rendering of frame
-	h3dFinalizeFrame();
-
-	// Remove all overlays
-	h3dClearOverlays();
-
-	// Write all messages to log file
-	h3dutDumpMessages();
 }
-
-void KnightDemoApp::resize(int width, int height)
-{
-	// Resize viewport
-	h3dSetNodeParamI(_cam, H3DCamera::ViewportXI, 0);
-	h3dSetNodeParamI(_cam, H3DCamera::ViewportYI, 0);
-	h3dSetNodeParamI(_cam, H3DCamera::ViewportWidthI, width);
-	h3dSetNodeParamI(_cam, H3DCamera::ViewportHeightI, height);
-
-	// Set virtual camera parameters
-	h3dSetupCameraView(_cam, 45.0f, (float)width / height, 0.1f, 1000.0f);
-	h3dResizePipelineBuffers(_hdrPipeRes, width, height);
-	h3dResizePipelineBuffers(_forwardPipeRes, width, height);
-}
-
 
 void KnightDemoApp::keyStateHandler()
 {
@@ -197,14 +155,6 @@ void KnightDemoApp::keyStateHandler()
 	if (_keys[32] && !_prevKeys[32])  // Space
 	{
 		if (++_freezeMode == 3) _freezeMode = 0;
-	}
-
-	if (_keys[260] && !_prevKeys[260])  // F3
-	{
-		if (h3dGetNodeParamI(_cam, H3DCamera::PipeResI) == _hdrPipeRes)
-			h3dSetNodeParamI(_cam, H3DCamera::PipeResI, _forwardPipeRes);
-		else
-			h3dSetNodeParamI(_cam, H3DCamera::PipeResI, _hdrPipeRes);
 	}
 
 	if (_keys[264] && !_prevKeys[264])  // F7
