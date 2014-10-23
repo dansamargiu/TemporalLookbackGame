@@ -46,11 +46,6 @@ int main(int, char** argv)
 		return -1;
 	}
 
-	if (!engine.SetState(GAME_STATE))
-	{
-		return -1;
-	}
-
 	// Launch the engine.
 	engine.GameLoop();
 
