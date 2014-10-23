@@ -107,3 +107,10 @@ namespace NUtility
 		DISALLOW_COPY_AND_ASSIGN(FancyFactory);
 	};
 }
+
+// Macro for generating the constructor signature and member variable
+// for objects that want to hold a const reference to the FancyFactory
+#define FACTORY_HOLDER(TypeName) \
+	private: const NUtility::FancyFactory& m_factory; \
+	public: TypeName(const NUtility::FancyFactory& factory) : m_factory(factory) {}; \
+	

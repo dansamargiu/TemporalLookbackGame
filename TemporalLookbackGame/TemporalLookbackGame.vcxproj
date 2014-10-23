@@ -247,21 +247,26 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasicCameraNode.cpp" />
     <ClCompile Include="FactoryRegistry.cpp" />
+    <ClCompile Include="GLFWGraphics.cpp" />
     <ClCompile Include="KnightDemoApp.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClInclude Include="BasicCameraNode.h" />
     <ClInclude Include="CallbackContainer.h" />
     <ClInclude Include="EngineDefines.h" />
     <ClInclude Include="EngineParams.h" />
     <ClInclude Include="EngineStringLiterals.h" />
     <ClInclude Include="GLFWGraphics.h" />
+    <ClInclude Include="Horde3DResourceManager.h" />
     <ClInclude Include="ICameraNode.h" />
     <ClInclude Include="IEngineState.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="IRenderer.h" />
+    <ClInclude Include="IResourceManager.h" />
     <ClInclude Include="KnightDemoApp.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Singleton.h" />

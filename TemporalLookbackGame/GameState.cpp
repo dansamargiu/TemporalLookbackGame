@@ -4,16 +4,6 @@
 
 using namespace NEngine;
 
-GameState::GameState(const NUtility::FancyFactory& factory)
-:
-m_factory(factory),
-m_shouldRun(true),
-m_knightDemo(nullptr),
-m_renderer(nullptr),
-m_camera(nullptr)
-{
-}
-
 GameState::~GameState()
 {
 	m_knightDemo->release();
@@ -21,6 +11,9 @@ GameState::~GameState()
 
 bool NEngine::GameState::Initialize(const EngineParams& params)
 {
+	// Initialize members
+	m_shouldRun = true;
+
 	// Initialize Renderer
 	m_renderer = m_factory.Resolve<IRenderer>();
 	if (!m_renderer || !m_renderer->Initialize())

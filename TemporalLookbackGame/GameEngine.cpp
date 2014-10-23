@@ -1,12 +1,9 @@
 #include "stdafx.h"
 #include "GameEngine.h"
+#include "CallbackContainer.h"
+#include "glfw.h"
 
 using namespace NEngine;
-
-GameEngine::GameEngine(const NUtility::FancyFactory& factory)
-: m_Factory(factory), m_graphics(nullptr), m_currentEngineState(nullptr)
-{
-}
 
 GameEngine::~GameEngine()
 {
@@ -23,7 +20,7 @@ bool GameEngine::Initialize(const EngineParams& params)
 	// Copy the params
 	m_params = params;
 
-	m_graphics = m_Factory.Resolve<IGraphics>();
+	m_graphics = m_factory.Resolve<IGraphics>();
 	if (!m_graphics)
 	{
 		return false;
@@ -48,7 +45,7 @@ bool GameEngine::SetState(const std::string& strState)
 {
 	// Clear the previous engine state object ptr and resolve the new one.
 	m_currentEngineState.reset();
-	m_currentEngineState = m_Factory.Resolve<IEngineState>(strState);
+	m_currentEngineState = m_factory.Resolve<IEngineState>(strState);
 	if (!m_currentEngineState)
 	{
 		return false;

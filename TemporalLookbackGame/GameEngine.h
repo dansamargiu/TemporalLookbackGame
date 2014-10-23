@@ -8,7 +8,7 @@ namespace NEngine
 	class GameEngine
 	{
 	public:
-		GameEngine(const NUtility::FancyFactory& factory);
+		FACTORY_HOLDER(GameEngine);
 		virtual ~GameEngine();
 
 		bool Initialize(const EngineParams& params);
@@ -16,7 +16,6 @@ namespace NEngine
 		void Launch();
 	private:
 		EngineParams m_params;
-		const NUtility::FancyFactory& m_Factory;
 		std::shared_ptr<IGraphics> m_graphics;
 		std::shared_ptr<IEngineState> m_currentEngineState;
 

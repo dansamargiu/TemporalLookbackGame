@@ -19,6 +19,12 @@
     <ClCompile Include="GameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BasicCameraNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLFWGraphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineDefines.h">
@@ -67,6 +73,15 @@
       <Filter>Header Files\Concrete</Filter>
     </ClInclude>
     <ClInclude Include="GLFWGraphics.h">
+      <Filter>Header Files\Concrete</Filter>
+    </ClInclude>
+    <ClInclude Include="IResourceManager.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Horde3DResourceManager.h">
+      <Filter>Header Files\Concrete</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicCameraNode.h">
       <Filter>Header Files\Concrete</Filter>
     </ClInclude>
   </ItemGroup>
