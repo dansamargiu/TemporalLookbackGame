@@ -1,10 +1,9 @@
 #pragma once
-#include "IGraphics.h"
+#include "IEngineState.h"
 #include "IRenderer.h"
 #include "ICameraNode.h"
 
-// TODO: Remove
-#include "KnightDemoApp.h"
+#include "KnightDemoApp.h" // TODO: Remove once we abstract it out.
 
 namespace NEngine 
 {

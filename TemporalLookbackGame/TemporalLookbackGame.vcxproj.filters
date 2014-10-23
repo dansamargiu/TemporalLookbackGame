@@ -66,6 +66,9 @@
     <ClInclude Include="GameEngine.h">
       <Filter>Header Files\Concrete</Filter>
     </ClInclude>
+    <ClInclude Include="GLFWGraphics.h">
+      <Filter>Header Files\Concrete</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

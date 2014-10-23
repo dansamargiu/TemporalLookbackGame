@@ -257,6 +257,7 @@
     <ClInclude Include="EngineDefines.h" />
     <ClInclude Include="EngineParams.h" />
     <ClInclude Include="EngineStringLiterals.h" />
+    <ClInclude Include="GLFWGraphics.h" />
     <ClInclude Include="ICameraNode.h" />
     <ClInclude Include="IEngineState.h" />
     <ClInclude Include="IGraphics.h" />

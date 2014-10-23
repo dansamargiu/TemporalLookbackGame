@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "FactoryRegistry.h"
+#include "GLFWGraphics.h"
+#include "GameState.h"
 
 using namespace NEngine;
 
