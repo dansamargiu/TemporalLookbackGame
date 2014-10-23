@@ -8,7 +8,7 @@ namespace NEngine
 	public:
 		virtual ~IEngineState() {};
 		virtual bool Initialize(const EngineParams& params) = 0;
-		virtual void Draw(float fps) = 0;
+		virtual void StateLoop(float fps) = 0;
 		virtual bool ShouldRun() const = 0;
 
 		// Callbacks

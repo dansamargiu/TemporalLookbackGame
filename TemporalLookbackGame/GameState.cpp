@@ -4,36 +4,22 @@
 
 using namespace NEngine;
 
-GameState::~GameState()
-{
-	m_knightDemo->release();
-}
-
-bool NEngine::GameState::Initialize(const EngineParams& params)
+bool GameState::Initialize(const EngineParams& params)
 {
 	// Initialize members
 	m_shouldRun = true;
 
-	// Initialize Renderer
+	// Get the renderer object
 	m_renderer = m_factory.Resolve<IRenderer>();
-	if (!m_renderer || !m_renderer->Initialize())
-	{
-		return false;
-	}
+	if (!m_renderer) return false;
 
-	// Initialize Camera
+	// Initialize Camera node
 	m_camera = m_factory.Resolve<ICameraNode>();
-	if (!m_camera || !m_camera->Initialize())
-	{
-		return false;
-	}
+	if (!m_camera || !m_camera->Initialize()) return false;
 
 	// Initialize demo app. TODO: Remove this once everything is flushed out.
 	m_knightDemo = std::make_shared<KnightDemoApp>(params.appPath);
-	if (!m_knightDemo->init())
-	{
-		return false;
-	}
+	if (!m_knightDemo->init()) return false;
 
 	m_knightDemo->resize(params.winWidth, params.winHeight);
 	return true;
@@ -44,7 +30,7 @@ bool GameState::ShouldRun() const
 	return m_shouldRun;
 }
 
-void GameState::Draw(float fps)
+void GameState::StateLoop(float fps)
 {
 	// Update key states
 	for (int i = 0; i < 320; ++i)
@@ -55,13 +41,13 @@ void GameState::Draw(float fps)
 	m_knightDemo->mainLoop(fps);
 }
 
-int NEngine::GameState::WindowCloseCallback()
+int GameState::WindowCloseCallback()
 {
 	m_shouldRun = false;
 	return 0;
 }
 
-void NEngine::GameState::SetKeyCallback(int key, int action)
+void GameState::SetKeyCallback(int key, int action)
 {
 	if (!m_shouldRun) return;
 
@@ -76,7 +62,7 @@ void NEngine::GameState::SetKeyCallback(int key, int action)
 	}
 }
 
-void NEngine::GameState::SetMousePosCallback(int x, int y)
+void GameState::SetMousePosCallback(int x, int y)
 {
 	(void)x;
 	(void)y;

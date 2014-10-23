@@ -6,6 +6,10 @@ namespace NEngine
 	class Horde3DResourceManager : public IResourceManager
 	{
 	public:
+		Horde3DResourceManager(std::string contentDir);
 		virtual bool Initialize() override;
+		virtual bool LoadResources() override;
+	private:
+		std::string m_contentDir;
 	};
 }

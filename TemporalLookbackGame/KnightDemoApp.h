@@ -33,7 +33,6 @@ public:
 
 	bool init();
 	void mainLoop(float fps);
-	void release();
 	void resize(int width, int height);
 
 	void keyStateHandler();

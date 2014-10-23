@@ -7,16 +7,8 @@ using namespace NEngine;
 
 GameEngine::~GameEngine()
 {
-	if (m_graphics)
-	{
-		m_graphics->Terminate();
-	}
-
-	if (m_renderer)
-	{
-		m_renderer->Release();
-	}
-
+	if (m_graphics) m_graphics->Terminate();
+	if (m_renderer) m_renderer->Release();
 	CallbackContainer::destroy_instance();
 }
 
@@ -27,10 +19,7 @@ bool GameEngine::Initialize(const EngineParams& params)
 
 	// Initialize graphics
 	m_graphics = m_factory.Resolve<IGraphics>();
-	if (!m_graphics || !m_graphics->Initialize())
-	{
-		return false;
-	}
+	if (!m_graphics || !m_graphics->Initialize()) return false;
 
 	// Open the main window
 	if (!m_graphics->OpenWindow({ params.winWidth, params.winHeight, 8, 8, 8, 8, 24, 8, params.fullscreen ? GLFW_FULLSCREEN : GLFW_WINDOW }))
@@ -40,10 +29,7 @@ bool GameEngine::Initialize(const EngineParams& params)
 
 	// Initialize Renderer
 	m_renderer = m_factory.Resolve<IRenderer>();
-	if (!m_renderer || !m_renderer->Initialize())
-	{
-		return false;
-	}
+	if (!m_renderer || !m_renderer->Initialize()) return false;
 
 	return true;
 }
@@ -75,7 +61,7 @@ bool GameEngine::SetState(const std::string& strState)
 	return true;
 }
 
-void GameEngine::Launch()
+void GameEngine::GameLoop()
 {
 	int frames = 0;
 	float fps = 30.0f;
@@ -93,7 +79,7 @@ void GameEngine::Launch()
 			t0 = t;
 		}
 
-		m_currentEngineState->Draw(fps);
+		m_currentEngineState->StateLoop(fps);
 		m_graphics->PollEvents();
 	}
 }

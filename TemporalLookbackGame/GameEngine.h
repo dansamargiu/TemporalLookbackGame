@@ -14,7 +14,7 @@ namespace NEngine
 
 		bool Initialize(const EngineParams& params);
 		bool SetState(const std::string& stateName);
-		void Launch();
+		void GameLoop();
 	private:
 		EngineParams m_params;
 		std::shared_ptr<IGraphics> m_graphics;

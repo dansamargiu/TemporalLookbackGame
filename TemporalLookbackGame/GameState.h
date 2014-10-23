@@ -11,9 +11,8 @@ namespace NEngine
 	{
 	public:
 		FACTORY_HOLDER(GameState);
-		virtual ~GameState();
 		virtual bool Initialize(const EngineParams& params) override;
-		virtual void Draw(float fps) override;
+		virtual void StateLoop(float fps) override;
 		virtual bool ShouldRun() const override;
 
 		virtual int WindowCloseCallback() override;

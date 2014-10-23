@@ -52,13 +52,6 @@ KnightDemoApp::KnightDemoApp(const std::string &appPath)
 
 bool KnightDemoApp::init()
 {
-	// Initialize engine
-	if (!h3dInit())
-	{
-		h3dutDumpMessages();
-		return false;
-	}
-
 	// Set options
 	h3dSetOption(H3DOptions::LoadTextures, 1);
 	h3dSetOption(H3DOptions::TexCompression, 0);
@@ -180,14 +173,6 @@ void KnightDemoApp::mainLoop(float fps)
 	// Write all messages to log file
 	h3dutDumpMessages();
 }
-
-
-void KnightDemoApp::release()
-{
-	// Release engine
-	h3dRelease();
-}
-
 
 void KnightDemoApp::resize(int width, int height)
 {

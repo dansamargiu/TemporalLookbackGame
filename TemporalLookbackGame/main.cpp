@@ -2,6 +2,7 @@
 #include "GameEngine.h"
 #include "FactoryRegistry.h"
 #include <iostream>
+#include "Horde3DResourceManager.h"
 
 static std::string ExtractAppPath(char *fullPath)
 {
@@ -22,16 +23,19 @@ using namespace NEngine;
 
 int main(int, char** argv)
 {
+	auto appPath = ExtractAppPath(argv[0]);
+
 	// Initialize Factory Pattern
 	NUtility::FancyFactory factory;
 	FactoryRegistry::SetupEngineFactories(factory);
+	factory.RegisterInstance<IResourceManager>(std::make_shared<Horde3DResourceManager>(appPath + "..\\..\\..\\Content"));
 
 	// Initialize Engine
 	GameEngine engine(factory);
 	const int kAppWidth = 1024;
 	const int kAppHeight = 576;
 	const bool kFullscreen = false;
-	if (!engine.Initialize({ ExtractAppPath(argv[0]), kAppWidth, kAppHeight, kFullscreen }))
+	if (!engine.Initialize({ appPath, kAppWidth, kAppHeight, kFullscreen }))
 	{
 		return -1;
 	}
@@ -43,7 +47,7 @@ int main(int, char** argv)
 	}
 
 	// Launch the engine.
-	engine.Launch();
+	engine.GameLoop();
 
 	return 0;
 }
