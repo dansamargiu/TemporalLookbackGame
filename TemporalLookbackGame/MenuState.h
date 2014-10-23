@@ -1,9 +1,7 @@
 #pragma once
 #include "IGraphics.h"
 #include "TemporalEngine.h"
-
-#include <Horde3D.h>
-#include <Horde3DUtils.h>
+#include "KnightDemoApp.h"
 
 namespace NEngine 
 {
@@ -23,10 +21,9 @@ namespace NEngine
 	private:
 		const NUtility::FancyFactory& m_factory;
 		bool m_shouldRun;
-		H3DNode m_model;
-		H3DNode m_cam;
-		float m_time;
+		std::shared_ptr<KnightDemoApp> m_knightDemo;
 
 		DISALLOW_COPY_AND_ASSIGN(MenuState);
+		
 	};
 }

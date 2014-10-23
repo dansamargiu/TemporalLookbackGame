@@ -28,7 +28,10 @@ int main(int, char** argv)
 
 	// Initialize Engine
 	TemporalEngine engine(factory);
-	if (!engine.Initialize({ ExtractAppPath(argv[0]) }))
+	const int kAppWidth = 1024;
+	const int kAppHeight = 576;
+	const bool kFullscreen = false;
+	if (!engine.Initialize({ ExtractAppPath(argv[0]), kAppWidth, kAppHeight, kFullscreen }))
 	{
 		return -1;
 	}

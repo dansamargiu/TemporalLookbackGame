@@ -16,6 +16,9 @@
     <ClCompile Include="FactoryRegistry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="KnightDemoApp.cpp">
+      <Filter>Demo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TemporalEngine.h">
@@ -57,6 +60,9 @@
     <ClInclude Include="EngineParams.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="KnightDemoApp.h">
+      <Filter>Demo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -67,6 +73,9 @@
     </Filter>
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{11813f0a-d0ed-4099-afad-0069f3538e53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Demo">
+      <UniqueIdentifier>{d5921c01-c35a-4309-b49a-e03bc279d3c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

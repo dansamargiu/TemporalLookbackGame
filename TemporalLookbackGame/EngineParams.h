@@ -8,5 +8,6 @@ namespace NEngine
 		std::string appPath;
 		int winWidth;
 		int winHeight;
+		bool fullscreen;
 	};
 }

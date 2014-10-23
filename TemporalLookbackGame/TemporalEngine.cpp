@@ -39,10 +39,7 @@ bool TemporalEngine::Initialize(const EngineParams& params)
 	}
 
 	// Open the main window
-	const int kAppWidth = 1024;
-	const int kAppHeight = 576;
-	const bool kFullscreen = false;
-	if (!m_graphics->OpenWindow({ kAppWidth, kAppHeight, 8, 8, 8, 8, 24, 8, kFullscreen ? GLFW_FULLSCREEN : GLFW_WINDOW }))
+	if (!m_graphics->OpenWindow({ params.winWidth, params.winHeight, 8, 8, 8, 8, 24, 8, params.fullscreen ? GLFW_FULLSCREEN : GLFW_WINDOW }))
 	{
 		return false;
 	}
