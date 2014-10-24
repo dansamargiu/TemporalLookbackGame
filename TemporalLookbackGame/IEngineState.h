@@ -13,7 +13,7 @@ namespace NEngine
 
 		// Callbacks
 		virtual int WindowCloseCallback() = 0;
-		virtual void SetKeyCallback(int key, int action) = 0;
-		virtual void SetMousePosCallback(int x, int y) = 0;
+		virtual void KeyCallback(int key, int action) = 0;
+		virtual void MousePosCallback(int x, int y) = 0;
 	};
 }

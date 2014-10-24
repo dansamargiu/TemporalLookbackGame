@@ -30,12 +30,12 @@ namespace NEngine
 
 		void SetKey(int key, int action)
 		{
-			if (m_engineState) m_engineState->SetKeyCallback(key, action);
+			if (m_engineState) m_engineState->KeyCallback(key, action);
 		}
 
 		void SetMousePos(int x, int y)
 		{
-			if (m_engineState) m_engineState->SetMousePosCallback(x, y);
+			if (m_engineState) m_engineState->MousePosCallback(x, y);
 		}
 
 	private:

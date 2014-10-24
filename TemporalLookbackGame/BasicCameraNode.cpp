@@ -19,18 +19,13 @@ bool BasicCameraNode::Initialize()
 	m_camHandle = m_renderer->AddCameraNode(m_renderer->GetRootNode(), "Camera", m_pipelineHandle);
 
 	// Initial TSR
-	m_camTSR = { 
-		{ 5, 3, 19 },
-		{ 7, 15, 0 },
-		{ 1, 1, 1 }
-	};
-
+	m_renderer->SetTransform(m_camHandle, { { 5, 3, 19 }, { 7, 15, 0 }, { 1, 1, 1 } });
 	return true;
 }
 
-void BasicCameraNode::Resize(int width, int height)
+void BasicCameraNode::ResizeViewport(int width, int height)
 {
-	// Resize viewport
+	// Resize Viewport
 	m_renderer->SetNodeParamI(m_camHandle, H3DCamera::ViewportXI, 0);
 	m_renderer->SetNodeParamI(m_camHandle, H3DCamera::ViewportYI, 0);
 	m_renderer->SetNodeParamI(m_camHandle, H3DCamera::ViewportWidthI, width);
@@ -43,11 +38,15 @@ void BasicCameraNode::Resize(int width, int height)
 
 void BasicCameraNode::Render()
 {
-	m_renderer->SetTransform(m_camHandle, m_camTSR);
 	m_renderer->Render(m_camHandle);
 }
 
-ObjectTSR* NEngine::BasicCameraNode::TSR()
+void BasicCameraNode::SetMatrix(const float *matrix)
 {
-	return &m_camTSR;
+	m_renderer->SetTransformMatrix(m_camHandle, matrix);
+}
+
+void NEngine::BasicCameraNode::GetMatrix(const float ** relMatrix, const float ** absMatrix)
+{
+	m_renderer->GetTransformMatrix(m_camHandle, relMatrix, absMatrix);
 }

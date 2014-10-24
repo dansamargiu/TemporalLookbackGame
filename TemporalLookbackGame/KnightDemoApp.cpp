@@ -212,7 +212,6 @@ void KnightDemoApp::keyStateHandler()
 	}
 }
 
-
 void KnightDemoApp::mouseMoveEvent(float dX, float dY)
 {
 	if (_freezeMode == 2) return;

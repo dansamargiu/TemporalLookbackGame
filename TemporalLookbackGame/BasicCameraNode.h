@@ -10,13 +10,12 @@ namespace NEngine
 	public:
 		FACTORY_HOLDER(BasicCameraNode);		
 		virtual bool Initialize() override;
-		virtual void Resize(int width, int height) override;
+		virtual void ResizeViewport(int width, int height) override;
+		virtual void GetMatrix(const float ** relMatrix, const float ** absMatrix) override;
+		virtual void SetMatrix(const float *matrix) override;
 		virtual void Render() override;
-
-		virtual ObjectTSR* TSR() override;
 	private:
 		std::shared_ptr<IRenderer> m_renderer;
-		ObjectTSR m_camTSR;
 		int m_pipelineHandle;
 		int m_camHandle;
 		DISALLOW_COPY_AND_ASSIGN(BasicCameraNode);

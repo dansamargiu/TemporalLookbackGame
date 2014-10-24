@@ -31,6 +31,9 @@
     <ClCompile Include="Horde3DRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameInputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineDefines.h">
@@ -95,6 +98,12 @@
     </ClInclude>
     <ClInclude Include="TSRStructs.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IInputManager.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInputManager.h">
+      <Filter>Header Files\Concrete</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

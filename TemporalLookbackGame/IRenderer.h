@@ -16,6 +16,8 @@ namespace NEngine
 		virtual void ResizePipelineBuffers(int pipeRes, int width, int height) = 0;
 		virtual void Render(int cameraNode) = 0;
 		virtual void SetTransform(int node, const ObjectTSR& transform) = 0;
+		virtual void GetTransformMatrix(int node, const float** relMatrix, const float** absMatrix) = 0;
+		virtual void SetTransformMatrix(int node, const float* transformMatrix) = 0;
 		virtual void FinalizeFrame() = 0;
 	};
 }

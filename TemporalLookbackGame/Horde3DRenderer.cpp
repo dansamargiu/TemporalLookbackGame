@@ -65,3 +65,14 @@ void NEngine::Horde3DRenderer::FinalizeFrame()
 	// Write all messages to log file
 	h3dutDumpMessages();
 }
+
+void NEngine::Horde3DRenderer::GetTransformMatrix(int node, const float** relMatrix, const float** absMatrix)
+{
+	h3dGetNodeTransMats(node, relMatrix, absMatrix);
+}
+
+
+void Horde3DRenderer::SetTransformMatrix(int node, const float* transformMatrix)
+{
+	h3dSetNodeTransMat(node, transformMatrix);
+}

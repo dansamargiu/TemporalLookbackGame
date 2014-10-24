@@ -4,6 +4,11 @@
 #include "Horde3DUtils.h"
 #include "IResourceManager.h"
 #include "CallbackContainer.h"
+#include "IInputManager.h"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include "glm/gtc/type_ptr.hpp"
 
 using namespace NEngine;
 
@@ -38,11 +43,42 @@ bool GameState::Initialize(const EngineParams& params)
 	// Initialize Camera node
 	m_camera = m_factory.Resolve<ICameraNode>();
 	if (!m_camera || !m_camera->Initialize()) return false;
-	m_camera->Resize(params.winWidth, params.winHeight);
+	m_camera->ResizeViewport(params.winWidth, params.winHeight);
 
 	// Initialize demo app. TODO: Remove this once everything is flushed out.
 	m_knightDemo = std::make_shared<KnightDemoApp>(m_factory);
 	if (!m_knightDemo->init()) return false;
+
+	// Initialize Input manager
+	m_inputManager = m_factory.Resolve<IInputManager>();
+	if (!m_inputManager || !m_inputManager->Initialize()) return false;
+
+	// Set key bindings
+	m_inputManager->BindCallbackKeyAction(GLFW_KEY_ESC, GLFW_PRESS, [&] { m_shouldRun = false; });
+	m_inputManager->BindHoldKeyDownAction('W', [&] { 
+		const float* camMatrix;
+		m_camera->GetMatrix(&camMatrix, 0x0);
+		auto translateMat = glm::translate(glm::make_mat4(camMatrix), glm::vec3(0.0f, 0.0f, -1.0f));
+		m_camera->SetMatrix(glm::value_ptr(translateMat));
+	});
+	m_inputManager->BindHoldKeyDownAction('A', [&] {
+		const float* camMatrix;
+		m_camera->GetMatrix(&camMatrix, 0x0);
+		auto translateMat = glm::translate(glm::make_mat4(camMatrix), glm::vec3(-1.0f, 0.0f, 0.0f));
+		m_camera->SetMatrix(glm::value_ptr(translateMat));
+	});
+	m_inputManager->BindHoldKeyDownAction('D', [&] {
+		const float* camMatrix;
+		m_camera->GetMatrix(&camMatrix, 0x0);
+		auto translateMat = glm::translate(glm::make_mat4(camMatrix), glm::vec3(1.0f, 0.0f, 0.0f));
+		m_camera->SetMatrix(glm::value_ptr(translateMat));
+	});
+	m_inputManager->BindHoldKeyDownAction('S', [&] {
+		const float* camMatrix;
+		m_camera->GetMatrix(&camMatrix, 0x0);
+		auto translateMat = glm::translate(glm::make_mat4(camMatrix), glm::vec3(0.0f, 0.0f, 1.0f));
+		m_camera->SetMatrix(glm::value_ptr(translateMat));
+	});	
 
 	return true;
 }
@@ -55,10 +91,8 @@ bool GameState::ShouldRun() const
 void GameState::StateLoop(float fps)
 {
 	// Update key states
-	for (int i = 0; i < 320; ++i)
-		m_knightDemo->setKeyState(i, glfwGetKey(i) == GLFW_PRESS);
-	m_knightDemo->keyStateHandler();
-
+	m_inputManager->UpdateKeyStates();
+	
 	// Camera Render
 	m_camera->Render();
 
@@ -74,40 +108,14 @@ int GameState::WindowCloseCallback()
 	return 0;
 }
 
-void GameState::SetKeyCallback(int key, int action)
+void GameState::KeyCallback(int key, int action)
 {
-	if (!m_shouldRun) return;
-
-	if (action == GLFW_PRESS)
-	{
-		switch (key)
-		{
-		case GLFW_KEY_ESC:
-			m_shouldRun = false;
-			break;
-		}
-	}
+	if (!m_shouldRun) return; // TODO: what does this do? maybe not needed.
+	m_inputManager->KeyAction(key, action);
 }
 
-void GameState::SetMousePosCallback(int x, int y)
+void GameState::MousePosCallback(int x, int y)
 {
-	static int mx0, my0;
-	if (!m_shouldRun)
-	{
-		mx0 = x; my0 = y;
-		return;
-	}
-
-	float dX = (float)(x - mx0);
-	float dY = (float)(my0 - y);
-
-	// Look left/right
-	m_camera->TSR()->r.y -= dX / 100 * 30;
-
-	// Loop up/down but only in a limited range
-	m_camera->TSR()->r.x += dY / 100 * 30;
-	if (m_camera->TSR()->r.x > 90) m_camera->TSR()->r.x = 90;
-	if (m_camera->TSR()->r.x < -90) m_camera->TSR()->r.x = -90;
-
-	mx0 = x; my0 = y;
+	if (!m_shouldRun) return;
+	m_inputManager->MousePos(x, y);
 }
