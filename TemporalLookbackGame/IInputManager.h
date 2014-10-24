@@ -11,6 +11,7 @@ namespace NEngine
 		virtual void UpdateKeyStates() = 0;
 		virtual void BindCallbackKeyAction(int key, int action, std::function<void()> binding) = 0;
 		virtual void BindHoldKeyDownAction(int key, std::function<void()> binding) = 0;
+		virtual void BindMouseMove(std::function<void(int, int)> binding) = 0;
 		virtual void KeyAction(int key, int action) = 0;
 		virtual void MousePos(int x, int y) = 0;
 	};

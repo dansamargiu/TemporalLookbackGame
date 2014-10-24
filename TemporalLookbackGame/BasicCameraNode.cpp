@@ -25,7 +25,7 @@ bool BasicCameraNode::Initialize()
 
 void BasicCameraNode::ResizeViewport(int width, int height)
 {
-	// Resize Viewport
+	// Resize View port
 	m_renderer->SetNodeParamI(m_camHandle, H3DCamera::ViewportXI, 0);
 	m_renderer->SetNodeParamI(m_camHandle, H3DCamera::ViewportYI, 0);
 	m_renderer->SetNodeParamI(m_camHandle, H3DCamera::ViewportWidthI, width);

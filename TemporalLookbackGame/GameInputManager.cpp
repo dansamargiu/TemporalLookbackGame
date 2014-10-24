@@ -11,22 +11,7 @@ bool GameInputManager::Initialize()
 
 void GameInputManager::MousePos(int x, int y)
 {
-	(void)x;
-	(void)y;
-	/*static int mx0, my0;
-
-	float dX = (float)(x - mx0);
-	float dY = (float)(my0 - y);
-
-	// Look left/right
-	m_camera->TSR()->r.y -= dX / 100 * 30;
-
-	// Loop up/down but only in a limited range
-	m_camera->TSR()->r.x += dY / 100 * 30;
-	if (m_camera->TSR()->r.x > 90) m_camera->TSR()->r.x = 90;
-	if (m_camera->TSR()->r.x < -90) m_camera->TSR()->r.x = -90;
-
-	mx0 = x; my0 = y;*/
+	if (m_mouseMoveBinding)	m_mouseMoveBinding(x, y);
 }
 
 void GameInputManager::KeyAction(int key, int action)
@@ -59,9 +44,14 @@ void GameInputManager::BindCallbackKeyAction(int key, int action, std::function<
 	m_callbackKeyBinds[std::make_pair(key, action)] = binding;
 }
 
-void NEngine::GameInputManager::BindHoldKeyDownAction(int key, std::function<void() > binding)
+void GameInputManager::BindHoldKeyDownAction(int key, std::function<void() > binding)
 {
 	m_holdKeyDownBinds[key] = binding;
+}
+
+void NEngine::GameInputManager::BindMouseMove(std::function<void(int, int) > binding)
+{
+	m_mouseMoveBinding = binding;
 }
 
 

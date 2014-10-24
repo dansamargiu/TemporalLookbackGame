@@ -211,16 +211,3 @@ void KnightDemoApp::keyStateHandler()
 		}
 	}
 }
-
-void KnightDemoApp::mouseMoveEvent(float dX, float dY)
-{
-	if (_freezeMode == 2) return;
-
-	// Look left/right
-	_ry -= dX / 100 * 30;
-
-	// Loop up/down but only in a limited range
-	_rx += dY / 100 * 30;
-	if (_rx > 90) _rx = 90;
-	if (_rx < -90) _rx = -90;
-}

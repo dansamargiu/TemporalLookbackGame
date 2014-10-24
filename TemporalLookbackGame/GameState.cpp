@@ -6,9 +6,12 @@
 #include "CallbackContainer.h"
 #include "IInputManager.h"
 
+#define degreesToRadians(x) x*(3.141592f/180.0f)
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "glm/gtc/type_ptr.hpp"
+#include "glm/gtc/constants.hpp"
 
 using namespace NEngine;
 
@@ -53,9 +56,9 @@ bool GameState::Initialize(const EngineParams& params)
 	m_inputManager = m_factory.Resolve<IInputManager>();
 	if (!m_inputManager || !m_inputManager->Initialize()) return false;
 
-	// Set key bindings
+	// Set key and mouse bindings
 	m_inputManager->BindCallbackKeyAction(GLFW_KEY_ESC, GLFW_PRESS, [&] { m_shouldRun = false; });
-	m_inputManager->BindHoldKeyDownAction('W', [&] { 
+	m_inputManager->BindHoldKeyDownAction('W', [&] {
 		const float* camMatrix;
 		m_camera->GetMatrix(&camMatrix, 0x0);
 		auto translateMat = glm::translate(glm::make_mat4(camMatrix), glm::vec3(0.0f, 0.0f, -1.0f));
@@ -79,6 +82,21 @@ bool GameState::Initialize(const EngineParams& params)
 		auto translateMat = glm::translate(glm::make_mat4(camMatrix), glm::vec3(0.0f, 0.0f, 1.0f));
 		m_camera->SetMatrix(glm::value_ptr(translateMat));
 	});	
+	m_inputManager->BindMouseMove([&](int x, int y)
+	{
+		static float mx0 = static_cast<float>(x);
+		static float my0 = static_cast<float>(y);
+		float dX = (x - mx0) / 100.0f * 30.0f;
+		float dY = (my0 - y) / 100.0f * 30.0f;
+		const float* camMatrix;
+		m_camera->GetMatrix(&camMatrix, 0x0);
+		auto translateMatX = glm::rotate(glm::make_mat4(camMatrix), degreesToRadians(dY), glm::vec3(1.0f, 0.0f, 0.0f));
+		auto translateMatY = glm::rotate(translateMatX, degreesToRadians(dX), glm::vec3(0.0f, -1.0f, 0.0f));
+		m_camera->SetMatrix(glm::value_ptr(translateMatY));
+
+		mx0 = static_cast<float>(x);
+		my0 = static_cast<float>(y);
+	});
 
 	return true;
 }
