@@ -1,0 +1,3 @@
+[submodule "ThirdParty/Horde3D"]
+	path = ThirdParty/Horde3D
+	url = git://github.com/horde3d/Horde3D
